@@ -23,11 +23,11 @@ class BTCAddressTests: XCTestCase {
     
     func testPublicKeyAddress() {
         let addr = BTCPublicKeyAddress(string: "1JwSSubhmg6iPtRjtyqhUYYH7bZg3Lfy1T")!
-        XCTAssert(addr.dynamicType === BTCPublicKeyAddress.self, "Address should be an instance of BTCPublicKeyAddress")
+        XCTAssert(type(of: addr) === BTCPublicKeyAddress.self, "Address should be an instance of BTCPublicKeyAddress")
         
         // Crashes Xcode 7.1.1 when using addr.data.hex()
         XCTAssertEqual("c4c5d791fcb4654a1ef5e03fe0ad3d9c598f9827", BTCHexFromData(addr.data), "Must decode hash160 correctly.")
-        XCTAssertEqual(addr, addr.publicAddress, "Address should be equal to its publicAddress")
+        XCTAssertEqual(addr, addr.public, "Address should be equal to its publicAddress")
         
         let addr2 = BTCPublicKeyAddress(data: BTCDataFromHex("c4c5d791fcb4654a1ef5e03fe0ad3d9c598f9827"))!
         
@@ -37,8 +37,8 @@ class BTCAddressTests: XCTestCase {
 
     func testPrivateKeyAddress() {
         let addr = BTCPrivateKeyAddress(string: "5KJvsngHeMpm884wtkJNzQGaCErckhHJBGFsvd3VyK5qMZXj3hS")!
-        XCTAssert(addr.dynamicType === BTCPrivateKeyAddress.self, "Address should be an instance of BTCPrivateKeyAddress")
-        XCTAssert(!addr.publicKeyCompressed, "Address should be not compressed")
+        XCTAssert(type(of: addr) === BTCPrivateKeyAddress.self, "Address should be an instance of BTCPrivateKeyAddress")
+        XCTAssert(!addr.isPublicKeyCompressed, "Address should be not compressed")
         
         // Crashes Xcode 7.1.1 when using addr.data.hex()
         XCTAssertEqual("c4bbcb1fbec99d65bf59d85c8cb62ee2db963f0fe106f483d9afa73bd4e39a8a", BTCHexFromData(addr.data), "must provide proper public address")
@@ -50,17 +50,17 @@ class BTCAddressTests: XCTestCase {
     
     func testPrivateKeyAddressWithCompressedPoint() {
         let addr = BTCPrivateKeyAddress(string: "L3p8oAcQTtuokSCRHQ7i4MhjWc9zornvpJLfmg62sYpLRJF9woSu")!
-        XCTAssert(addr.dynamicType === BTCPrivateKeyAddress.self, "Address should be an instance of BTCPrivateKeyAddress")
-        XCTAssert(addr.publicKeyCompressed, "address should be compressed")
+        XCTAssert(type(of: addr) === BTCPrivateKeyAddress.self, "Address should be an instance of BTCPrivateKeyAddress")
+        XCTAssert(addr.isPublicKeyCompressed, "address should be compressed")
         
         // Crashes Xcode 7.1.1 when using addr.data.hex()
         XCTAssertEqual("c4bbcb1fbec99d65bf59d85c8cb62ee2db963f0fe106f483d9afa73bd4e39a8a", BTCHexFromData(addr.data), "Must decode secret key correctly.")
-        XCTAssertEqual(addr.publicAddress.string, "1C7zdTfnkzmr13HfA2vNm5SJYRK6nEKyq8", "must provide proper public address")
+        XCTAssertEqual(addr.public.string, "1C7zdTfnkzmr13HfA2vNm5SJYRK6nEKyq8", "must provide proper public address")
         
         let addr2 = BTCPrivateKeyAddress(data: BTCDataFromHex("c4bbcb1fbec99d65bf59d85c8cb62ee2db963f0fe106f483d9afa73bd4e39a8a"))!
-        addr2.publicKeyCompressed = true
+        addr2.isPublicKeyCompressed = true
         XCTAssertEqual("L3p8oAcQTtuokSCRHQ7i4MhjWc9zornvpJLfmg62sYpLRJF9woSu", addr2.string, "Must encode secret key correctly.")
-        addr2.publicKeyCompressed = false
+        addr2.isPublicKeyCompressed = false
         XCTAssertEqual("5KJvsngHeMpm884wtkJNzQGaCErckhHJBGFsvd3VyK5qMZXj3hS", addr2.string, "Must encode secret key correctly.")
     }
 
@@ -68,11 +68,11 @@ class BTCAddressTests: XCTestCase {
     func testScriptHashKeyAddress() {
 
         let addr = BTCScriptHashAddress(string: "3NukJ6fYZJ5Kk8bPjycAnruZkE5Q7UW7i8")!
-        XCTAssert(addr.dynamicType === BTCScriptHashAddress.self, "Address should be an instance of BTCScriptHashAddress")
+        XCTAssert(type(of: addr) === BTCScriptHashAddress.self, "Address should be an instance of BTCScriptHashAddress")
 
         // Crashes Xcode 7.1.1 when using addr.data.hex()
         XCTAssertEqual("e8c300c87986efa84c37c0519929019ef86eb5b4", BTCHexFromData(addr.data), "Must decode hash160 correctly.")
-        XCTAssertEqual(addr, addr.publicAddress, "Address should be equal to its publicAddress")
+        XCTAssertEqual(addr, addr.public, "Address should be equal to its publicAddress")
         let addr2 = BTCScriptHashAddress(data: BTCDataFromHex("e8c300c87986efa84c37c0519929019ef86eb5b4"))!
         XCTAssertNotNil(addr2, "Address should be created")
         XCTAssertEqual("3NukJ6fYZJ5Kk8bPjycAnruZkE5Q7UW7i8", addr2.string, "Must encode hash160 correctly.")

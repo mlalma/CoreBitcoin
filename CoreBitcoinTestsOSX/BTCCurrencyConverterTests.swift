@@ -30,12 +30,12 @@ class BTCCurrencyConverterTests: XCTestCase {
         converter.buyRate = NSDecimalNumber(string: "210.0")
         converter.sellRate = NSDecimalNumber(string: "200.0")
         
-        let asks = [[NSNumber(double: 209.0), NSNumber(double: 1.0)]]
+        let asks = [[NSNumber(value: 209.0), NSNumber(value: 1.0)]]
         
         converter.asks = asks
         XCTAssertNotNil(converter.asks, "Should be valid ask array")
         
-        let bids = [[NSNumber(double: 201.0), NSNumber(double: 1.0)]]
+        let bids = [[NSNumber(value: 201.0), NSNumber(value: 1.0)]]
         
         converter.bids = bids
         XCTAssertNotNil(converter.bids, "Should be valid bids array")
@@ -50,22 +50,22 @@ class BTCCurrencyConverterTests: XCTestCase {
         
         
         
-        converter.mode = BTCCurrencyConverterMode.Average
-        let averageBTCAmount = converter.bitcoinFromFiat(NSDecimalNumber(string: "10.0"))
+        converter.mode = BTCCurrencyConverterMode.average
+        let averageBTCAmount = converter.bitcoin(fromFiat: NSDecimalNumber(string: "10.0"))
         
         XCTAssertEqual(averageBTCAmount, 5000000, "10.0 fiat with average BTC price of 200 should buy 5 million satoshis")
         
         
         
-        converter.mode = BTCCurrencyConverterMode.Buy
-        let buyBTCAmount = converter.bitcoinFromFiat(NSDecimalNumber(string: "10.0"))
+        converter.mode = BTCCurrencyConverterMode.buy
+        let buyBTCAmount = converter.bitcoin(fromFiat: NSDecimalNumber(string: "10.0"))
         
         XCTAssertEqual(buyBTCAmount, 4878049, "10.0 fiat with buy rate of 205 should buy 4878049 satoshis")
         
         
         
-        converter.mode = BTCCurrencyConverterMode.Sell
-        let sellBTCAmount = converter.bitcoinFromFiat(NSDecimalNumber(string: "10.0"))
+        converter.mode = BTCCurrencyConverterMode.sell
+        let sellBTCAmount = converter.bitcoin(fromFiat: NSDecimalNumber(string: "10.0"))
         XCTAssertEqual(sellBTCAmount, 5128205, "10.0 fiat with sell rate of 195 should convert to 5128205 satoshis")
         
     }

@@ -90,30 +90,30 @@ class BTCMnemonicTests: XCTestCase {
         
         for (a,b,c) in testVectors {
             let entropy = BTCDataFromHex(a)
-            let words = b.componentsSeparatedByString(" ")
+            let words = b.components(separatedBy: " ")
             let seed = BTCDataFromHex(c)
             
             XCTAssertNotNil(entropy, "Sanity check")
             XCTAssertNotNil(seed, "Sanity check")
             
             do { // Test when using entropy
-                let mnemonic = BTCMnemonic(entropy: entropy, password: "TREZOR", wordListType: BTCMnemonicWordListType.English)
+                let mnemonic: BTCMnemonic = BTCMnemonic(entropy: entropy, password: "TREZOR", wordListType: BTCMnemonicWordListType.english)
                 
                 XCTAssertNotNil(mnemonic, "Sanity check")
                 XCTAssertEqual(mnemonic.entropy, entropy, "Entropy should be available as a property.")
                 XCTAssertEqual(mnemonic.words as! [String], words, "Should create proper words list from entropy.")
                 XCTAssertEqual(mnemonic.seed, seed, "Should create correct seed from the words.")
                 
-                XCTAssertGreaterThan(mnemonic.data.length, 1, "Should have reasonable payload encoding")
-                XCTAssertGreaterThanOrEqual(mnemonic.dataWithSeed.length, mnemonic.data.length + 64, "Should have seed encoded")
+                XCTAssertGreaterThan(mnemonic.data.count, 1, "Should have reasonable payload encoding")
+                XCTAssertGreaterThanOrEqual(mnemonic.dataWithSeed.count, mnemonic.data.count + 64, "Should have seed encoded")
                 
-                let mnemonic2 = BTCMnemonic(data: mnemonic.data)
+                let mnemonic2: BTCMnemonic = BTCMnemonic(data: mnemonic.data)
                 XCTAssertNotNil(mnemonic2)
                 XCTAssertEqual(mnemonic2.entropy, entropy, "Entropy should be available as a property.")
                 XCTAssertEqual(mnemonic2.words as! [String], words, "Should create proper words list from entropy.")
                 XCTAssertEqual(mnemonic2.seed, seed, "Should create correct seed from the words.")
                 
-                let mnemonic3 = BTCMnemonic(data: mnemonic.dataWithSeed)
+                let mnemonic3: BTCMnemonic = BTCMnemonic(data: mnemonic.dataWithSeed)
                 XCTAssertNotNil(mnemonic3)
                 XCTAssertEqual(mnemonic3.entropy, entropy, "Entropy should be available as a property.")
                 XCTAssertEqual(mnemonic3.words as! [String], words, "Should create proper words list from entropy.")
@@ -122,7 +122,7 @@ class BTCMnemonicTests: XCTestCase {
             }
             
             do { // Test when using words
-                let mnemonic = BTCMnemonic(words: words, password: "TREZOR", wordListType: BTCMnemonicWordListType.English)
+                let mnemonic: BTCMnemonic = BTCMnemonic(words: words, password: "TREZOR", wordListType: BTCMnemonicWordListType.english)
                 XCTAssertNotNil(mnemonic, "Sanity check")
                 XCTAssertEqual(mnemonic.entropy, entropy, "Entropy should be extracted from mnemonic.")
                 XCTAssertEqual(mnemonic.words as! [String], words, "Should contain the same words with the entropy.")
@@ -131,7 +131,7 @@ class BTCMnemonicTests: XCTestCase {
             }
             
             do { // Test when using words without a password
-                let mnemonic = BTCMnemonic(words: words, password: nil, wordListType: BTCMnemonicWordListType.English)
+                let mnemonic: BTCMnemonic = BTCMnemonic(words: words, password: nil, wordListType: BTCMnemonicWordListType.english)
                 
                 XCTAssertNotNil(mnemonic, "Sanity check")
                 XCTAssertEqual(mnemonic.entropy, entropy, "Entropy should be extracted from mnemonic.")
@@ -140,7 +140,7 @@ class BTCMnemonicTests: XCTestCase {
             }
             
             do { //Test when using words without a full wordlist
-                let mnemonic = BTCMnemonic(words: words, password: "TREZOR", wordListType: BTCMnemonicWordListType.Unknown)
+                let mnemonic: BTCMnemonic = BTCMnemonic(words: words, password: "TREZOR", wordListType: BTCMnemonicWordListType.unknown)
                 
                 XCTAssertNotNil(mnemonic, "Sanity check")
                 XCTAssertNil(mnemonic.entropy, "Entropy should not be extracted from mnemonic.")
@@ -153,10 +153,10 @@ class BTCMnemonicTests: XCTestCase {
     }
     
     func testMnemonicsWithoutPassword() {
-        let words = "degree rain vendor coffee push math onion inside pyramid blush stick treat".componentsSeparatedByString(" ")
+        let words = "degree rain vendor coffee push math onion inside pyramid blush stick treat".components(separatedBy: " ")
         let seed = BTCDataFromHex("a359cf47a6ddcc581f28133062dbc4cfacfbd79703e167b2a61438bf9f89efe5f2f12f8d39aea44709a5913965be93a5f805c6c614dcbfe620bceb161f0018c4")
         
-        let mnemonic = BTCMnemonic(words: words, password: nil, wordListType: BTCMnemonicWordListType.Unknown)
+        let mnemonic: BTCMnemonic = BTCMnemonic(words: words, password: nil, wordListType: BTCMnemonicWordListType.unknown)
         
         XCTAssertNotNil(mnemonic, "Sanity check")
         XCTAssertEqual(mnemonic.words as! [String], words, "Should contain the same words.")
@@ -176,8 +176,8 @@ class BTCMnemonicTests: XCTestCase {
             ]
             
             for phrase in phrases {
-                let words = phrase.componentsSeparatedByString(" ")
-                let mnemonic = BTCMnemonic(words: words, password: nil, wordListType: BTCMnemonicWordListType.English)
+                let words = phrase.components(separatedBy: " ")
+                let mnemonic = BTCMnemonic(words: words, password: nil, wordListType: BTCMnemonicWordListType.english)
                 
                 XCTAssertNil(mnemonic, "Entropy should not be extracted from mnemonic because it's invalid, and initialization will fail.")
             }
@@ -193,8 +193,8 @@ class BTCMnemonicTests: XCTestCase {
             ]
             
             for phrase in phrases {
-                let words = phrase.componentsSeparatedByString(" ")
-                let mnemonic = BTCMnemonic(words: words, password: nil, wordListType: BTCMnemonicWordListType.English)
+                let words = phrase.components(separatedBy: " ")
+                let mnemonic = BTCMnemonic(words: words, password: nil, wordListType: BTCMnemonicWordListType.english)
                 
                 XCTAssertNil(mnemonic, "Should not instantiate with incorrect word count")
             }

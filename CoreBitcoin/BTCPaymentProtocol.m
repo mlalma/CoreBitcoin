@@ -63,9 +63,25 @@ static NSString* const BTCOpenAssetsPaymentMethodRequestMimeType = @"application
 
     NSURLRequest* request = [self requestForPaymentMethodRequestWithURL:paymentMethodRequestURL];
     dispatch_async(dispatch_get_global_queue(QOS_CLASS_DEFAULT, 0), ^{
-        NSURLResponse* response = nil;
-        NSError* error = nil;
-        NSData* data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+        //NSURLResponse* response = nil;
+        //NSError* error = nil;
+        //NSData* data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+        NSURLResponse __block* response = nil;
+        NSError __block* error = nil;
+        NSData __block* data = nil;
+        dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+        NSURLSession *session = [NSURLSession sharedSession];
+        [[session dataTaskWithRequest:request
+                    completionHandler:^(NSData *_data,
+                                        NSURLResponse *_response,
+                                        NSError *_error) {
+                        data = _data;
+                        response = _response;
+                        error = _error;
+                        dispatch_semaphore_signal(semaphore);
+                    }] resume];
+        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+        
         if (!data) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 completionHandler(nil, nil, error);
@@ -88,9 +104,25 @@ static NSString* const BTCOpenAssetsPaymentMethodRequestMimeType = @"application
 
     NSURLRequest* request = [self requestForPaymentRequestWithURL:paymentRequestURL];
     dispatch_async(dispatch_get_global_queue(QOS_CLASS_DEFAULT, 0), ^{
-        NSURLResponse* response = nil;
-        NSError* error = nil;
-        NSData* data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+        //NSURLResponse* response = nil;
+        //NSError* error = nil;
+        //NSData* data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+        NSURLResponse __block* response = nil;
+        NSError __block* error = nil;
+        NSData __block* data = nil;
+        dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+        NSURLSession *session = [NSURLSession sharedSession];
+        [[session dataTaskWithRequest:request
+                    completionHandler:^(NSData *_data,
+                                        NSURLResponse *_response,
+                                        NSError *_error) {
+                        data = _data;
+                        response = _response;
+                        error = _error;
+                        dispatch_semaphore_signal(semaphore);
+                    }] resume];
+        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+        
         if (!data) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 completionHandler(nil, error);
@@ -111,9 +143,25 @@ static NSString* const BTCOpenAssetsPaymentMethodRequestMimeType = @"application
 
     NSURLRequest* request = [self requestForPayment:payment url:paymentURL];
     dispatch_async(dispatch_get_global_queue(QOS_CLASS_DEFAULT, 0), ^{
-        NSURLResponse* response = nil;
-        NSError* error = nil;
-        NSData* data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+        //NSURLResponse* response = nil;
+        //NSError* error = nil;
+        //NSData* data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+        NSURLResponse __block* response = nil;
+        NSError __block* error = nil;
+        NSData __block* data = nil;
+        dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+        NSURLSession *session = [NSURLSession sharedSession];
+        [[session dataTaskWithRequest:request
+                    completionHandler:^(NSData *_data,
+                                        NSURLResponse *_response,
+                                        NSError *_error) {
+                        data = _data;
+                        response = _response;
+                        error = _error;
+                        dispatch_semaphore_signal(semaphore);
+                    }] resume];
+        dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+        
         if (!data) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 completionHandler(nil, error);

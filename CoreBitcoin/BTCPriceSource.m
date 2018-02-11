@@ -104,11 +104,26 @@
 
     NSURLRequest* request = [self requestForCurrency:currencyCode];
 
-    NSError* error = nil;
+    /*NSError* error = nil;
     NSURLResponse* response = nil;
     NSData* data = [NSURLConnection sendSynchronousRequest:request
                                          returningResponse:&response
-                                                     error:&error];
+                                                     error:&error];*/
+    NSURLResponse __block* response = nil;
+    NSError __block* error = nil;
+    NSData __block* data = nil;
+    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+    NSURLSession *session = [NSURLSession sharedSession];
+    [[session dataTaskWithRequest:request
+                completionHandler:^(NSData *_data,
+                                    NSURLResponse *_response,
+                                    NSError *_error) {
+                    data = _data;
+                    response = _response;
+                    error = _error;
+                    dispatch_semaphore_signal(semaphore);
+                }] resume];
+    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
 
     if (!data || !response) {
         if (errorOut) *errorOut = error;

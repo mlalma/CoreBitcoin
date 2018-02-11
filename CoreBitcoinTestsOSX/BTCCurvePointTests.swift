@@ -14,20 +14,20 @@ class BTCCurvePointTests: XCTestCase {
     func testPublicKey() {
         
         // Should be able to create public key N = n*G via BTCKey API as well as raw EC arithmetic using BTCCurvePoint.
-        let privateKeyData = BTCHash256("Private Key Seed".dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false))
+        let privateKeyData = BTCHash256("Private Key Seed".data(using: String.Encoding.utf8, allowLossyConversion: false))
         
         // 1. Make the pubkey using BTCKey API.
         
-        let key = BTCKey(privateKey: privateKeyData)
+        let key: BTCKey = BTCKey(privateKey: privateKeyData! as Data)
         
         
         // 2. Make the pubkey using BTCCurvePoint API.
         
-        let bn = BTCBigNumber(unsignedBigEndian: privateKeyData)
+        let bn: BTCBigNumber = BTCBigNumber(unsignedBigEndian: privateKeyData! as Data)
         
-        let generator = BTCCurvePoint.generator()
-        let pubKeyPoint = generator.copy().multiply(bn)
-        let keyFromPoint = BTCKey(curvePoint: pubKeyPoint)
+        let generator: BTCCurvePoint = BTCCurvePoint.generator()
+        let pubKeyPoint: BTCCurvePoint = generator.copy().multiply(bn)
+        let keyFromPoint: BTCKey = BTCKey(curvePoint: pubKeyPoint)
         
         // 2.1. Test serialization
         
@@ -44,23 +44,23 @@ class BTCCurvePointTests: XCTestCase {
         // Alice: a, A=a*G. Bob: b, B=b*G.
         // Test shared secret: a*B = b*A = (a*b)*G.
         
-        let alicePrivateKeyData = BTCHash256("alice private key".dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false))
-        let bobPrivateKeyData = BTCHash256("bob private key".dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false))
+        let alicePrivateKeyData: Data = BTCHash256("alice private key".data(using: String.Encoding.utf8, allowLossyConversion: false))! as Data
+        let bobPrivateKeyData: Data = BTCHash256("bob private key".data(using: String.Encoding.utf8, allowLossyConversion: false))! as Data
         
 //        println("Alice privkey: \(BTCHexFromData(alicePrivateKeyData))")
 //        println("Bob privkey: \(BTCHexFromData(bobPrivateKeyData))")
         
-        let aliceNumber = BTCBigNumber(unsignedBigEndian: alicePrivateKeyData)
-        let bobNumber = BTCBigNumber(unsignedBigEndian: bobPrivateKeyData)
+        let aliceNumber: BTCBigNumber = BTCBigNumber(unsignedBigEndian: alicePrivateKeyData)
+        let bobNumber: BTCBigNumber = BTCBigNumber(unsignedBigEndian: bobPrivateKeyData)
         
 //        println("Alice number: \(aliceNumber.hexString)")
 //        println("Bob number: \(bobNumber.hexString)")
         
-        let aliceKey = BTCKey(privateKey: alicePrivateKeyData)
-        let bobKey = BTCKey(privateKey: bobPrivateKeyData)
+        let aliceKey: BTCKey = BTCKey(privateKey: alicePrivateKeyData)
+        let bobKey: BTCKey = BTCKey(privateKey: bobPrivateKeyData)
         
-        XCTAssertEqual(aliceKey.privateKey, aliceNumber.unsignedBigEndian, "")
-        XCTAssertEqual(bobKey.privateKey, bobNumber.unsignedBigEndian, "")
+        XCTAssertEqual(aliceKey.privateKey! as Data, aliceNumber.unsignedBigEndian, "")
+        XCTAssertEqual(bobKey.privateKey! as Data, bobNumber.unsignedBigEndian, "")
         
         let aliceSharedSecret = bobKey.curvePoint.multiply(aliceNumber)
         let bobSharedSecret = aliceKey.curvePoint.multiply(bobNumber)

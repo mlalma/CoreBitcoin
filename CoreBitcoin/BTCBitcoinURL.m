@@ -108,12 +108,17 @@ NSString* const BTCBitcoinURLSchemeOpenAssets = @"openassets";
     if(self.queryParameters) {
         NSArray* keys = self.queryParameters.allKeys;
         for (NSString* key in keys) {
-            NSString* encodedKey = CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL, (CFStringRef)key, NULL, CFSTR("&="),
-                                                                                             kCFStringEncodingUTF8));
-            NSString* encodedValue = CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL, (CFStringRef)[self.queryParameters objectForKey:key], NULL, CFSTR("&="),
-                                                                                               kCFStringEncodingUTF8));
+            NSString* encodedKey = [key stringByAddingPercentEncodingWithAllowedCharacters:
+                                        [NSCharacterSet URLQueryAllowedCharacterSet]];
+            /*NSString* encodedKey = CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL, (CFStringRef)key, NULL, CFSTR("&="), kCFStringEncodingUTF8));*/
+
+            NSString* encodedValue = [[self.queryParameters objectForKey:key]
+                                      stringByAddingPercentEncodingWithAllowedCharacters:
+                                        [NSCharacterSet URLQueryAllowedCharacterSet]];
+
+            /*NSString* encodedValue = CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(NULL, (CFStringRef)[self.queryParameters objectForKey:key], NULL, CFSTR("&="), kCFStringEncodingUTF8));*/
+            
             [queryItems addObject:[NSString stringWithFormat:@"%@=%@",encodedKey,encodedValue]];
-             
         }
     }
 

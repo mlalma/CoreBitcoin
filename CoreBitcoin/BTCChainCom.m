@@ -51,8 +51,24 @@
 // Makes sync request for unspent outputs and parses the outputs.
 - (NSArray*) unspentOutputsWithAddress:(BTCAddress*)address error:(NSError**)errorOut {
     NSURLRequest* req = [self requestForUnspentOutputsWithAddress:address];
-    NSURLResponse* response = nil;
-    NSData* data = [NSURLConnection sendSynchronousRequest:req returningResponse:&response error:errorOut];
+    //NSURLResponse* response = nil;
+    //NSData* data = [NSURLConnection sendSynchronousRequest:req returningResponse:&response error:errorOut];
+    NSURLResponse __block* response = nil;
+    NSError __block* error = nil;
+    NSData __block* data = nil;
+    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+    NSURLSession *session = [NSURLSession sharedSession];
+    [[session dataTaskWithRequest:req
+                completionHandler:^(NSData *_data,
+                                    NSURLResponse *_response,
+                                    NSError *_error) {
+                    data = _data;
+                    response = _response;
+                    error = _error;
+                    dispatch_semaphore_signal(semaphore);
+                }] resume];
+    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+
     if (!data) {
         return nil;
     }
@@ -83,9 +99,23 @@
 - (BOOL) broadcastTransactionData:(NSData*)data error:(NSError**)errorOut
 {
     NSURLRequest* req = [self requestForTransactionBroadcastWithData:data];
-    NSURLResponse* response = nil;
-    
-    [NSURLConnection sendSynchronousRequest:req returningResponse:&response error:errorOut];
+    //NSURLResponse* response = nil;
+    //[NSURLConnection sendSynchronousRequest:req returningResponse:&response error:errorOut];
+    NSURLResponse __block* response = nil;
+    NSError __block* error = nil;
+    //NSData __block* data = nil;
+    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+    NSURLSession *session = [NSURLSession sharedSession];
+    [[session dataTaskWithRequest:req
+                completionHandler:^(NSData *_data,
+                                    NSURLResponse *_response,
+                                    NSError *_error) {
+                    //data = _data;
+                    response = _response;
+                    error = _error;
+                    dispatch_semaphore_signal(semaphore);
+                }] resume];
+    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
     
     NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
 

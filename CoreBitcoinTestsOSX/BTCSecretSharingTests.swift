@@ -21,22 +21,22 @@ class BTCSecretSharingTests: XCTestCase {
     }
 
     func testConfigurations() {
-        let ssss128 = BTCSecretSharing(version: .Compact128)
+        let ssss128 = BTCSecretSharing(version: .compact128)
         XCTAssertEqual(ssss128.order.hexString, "ffffffffffffffffffffffffffffff61")
         XCTAssertEqual(ssss128.bitlength, 128)
 
-        let ssss104 = BTCSecretSharing(version: .Compact104)
+        let ssss104 = BTCSecretSharing(version: .compact104)
         XCTAssertEqual(ssss104.order.hexString, "ffffffffffffffffffffffffef")
         XCTAssertEqual(ssss104.bitlength, 104)
 
-        let ssss96 = BTCSecretSharing(version: .Compact96)
+        let ssss96 = BTCSecretSharing(version: .compact96)
         XCTAssertEqual(ssss96.order.hexString, "ffffffffffffffffffffffef")
         XCTAssertEqual(ssss96.bitlength, 96)
     }
 
     func testVectors() {
 
-        let testVectors:[[String:AnyObject]] = [
+        let testVectors:[[String:Any]] = [
 
             // 128-bit secrets
 
@@ -151,38 +151,38 @@ class BTCSecretSharingTests: XCTestCase {
 
         for test in testVectors {
             let hexsecret = test["secret"] as! String
-            let secret = BTCDataFromHex(hexsecret)
+            let secret: Data = BTCDataFromHex(hexsecret)
 
             let ssss:BTCSecretSharing
 
-            switch secret.length {
+            switch secret.count {
             case 128/8:
-                ssss = BTCSecretSharing(version: .Compact128)
+                ssss = BTCSecretSharing(version: .compact128)
             case 104/8:
-                ssss = BTCSecretSharing(version: .Compact104)
+                ssss = BTCSecretSharing(version: .compact104)
             case 96/8:
-                ssss = BTCSecretSharing(version: .Compact96)
+                ssss = BTCSecretSharing(version: .compact96)
             default:
                 XCTFail("Unsupported secret length")
-                ssss = BTCSecretSharing(version: .Compact128)
+                ssss = BTCSecretSharing(version: .compact128)
             }
 
             for (key, definedShares) in test where key != "secret" {
-                let mn:[Int] = key.componentsSeparatedByString("-of-").map{ ($0 as NSString).integerValue }
+                let mn:[Int] = key.components(separatedBy: "-of-").map{ ($0 as NSString).integerValue }
                 let m = mn[0]
                 let n = mn[1]
 
                 // Test split
-                let shares:[NSData] = try! ssss.splitSecret(secret, threshold:m, shares:n)
+                let shares:[Data] = try! ssss.splitSecret(secret, threshold:m, shares:n)
                 let hexshares:[String] = shares.map{ BTCHexFromData($0) }
                 XCTAssertEqual(hexshares, definedShares as! [String])
 
                 // Test restore
-                let variants:[[NSData]] = [
+                let variants:[[Data]] = [
                     Array(shares[0..<m]),
-                    Array(shares.reverse()[0..<m]),
-                    Array(shares[0..<m]).reverse(),
-                    Array(shares.reverse()[0..<m]).reverse()
+                    Array(shares.reversed()[0..<m]),
+                    Array(shares[0..<m]).reversed(),
+                    Array(shares.reversed()[0..<m]).reversed()
                 ]
 
                 for shs in variants {

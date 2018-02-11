@@ -13,7 +13,7 @@ class BTCBitcoinURLTests: XCTestCase {
 
     func testExample() {
         // This is an example of a functional test case.
-        let bURL = BTCBitcoinURL(URL: NSURL(string: "bitcoin:1JwSSubhmg6iPtRjtyqhUYYH7bZg3Lfy1T?amount=1.23450009&label=Hello%20world"))!
+        let bURL: BTCBitcoinURL = BTCBitcoinURL(url: URL(string: "bitcoin:1JwSSubhmg6iPtRjtyqhUYYH7bZg3Lfy1T?amount=1.23450009&label=Hello%20world"))!
         XCTAssertTrue(bURL.isValid, "Must be valid")
         XCTAssertTrue(bURL.isValidBitcoinURL, "Must be valid bitcoin url")
         XCTAssertEqual(bURL.amount, 123450009, "Must parse amount formatted as btc")
@@ -22,12 +22,13 @@ class BTCBitcoinURLTests: XCTestCase {
         XCTAssertEqual(bURL.label!, "Hello world", "Must parse label")
         XCTAssertEqual(bURL.queryParameters["label"] as? String, "Hello world", "Must provide raw query items access")
         XCTAssertEqual(bURL.queryParameters["amount"] as? String, "1.23450009", "Must provide raw query items access")
-        XCTAssertEqual(bURL["label"] as? String, "Hello world", "Must provide raw query items access")
-        XCTAssertEqual(bURL["amount"] as? String, "1.23450009", "Must provide raw query items access")
+        XCTAssertEqual(bURL["label" as NSCopying] as? String, "Hello world", "Must provide raw query items access")
+        XCTAssertEqual(bURL["amount" as NSCopying] as? String, "1.23450009", "Must provide raw query items access")
     }
     
     func testCompatiblePaymentRequest() {
-        let bURL = BTCBitcoinURL(URL: NSURL(string: "bitcoin:1JwSSubhmg6iPtRjtyqhUYYH7bZg3Lfy1T?amount=1.23450009&r=http://example.com/order-1000123"))!
+        let bURL: BTCBitcoinURL = BTCBitcoinURL(url: URL(string:
+            "bitcoin:1JwSSubhmg6iPtRjtyqhUYYH7bZg3Lfy1T?amount=1.23450009&r=http://example.com/order-1000123"))!
         XCTAssertTrue(bURL.isValid, "Must be valid")
         XCTAssertTrue(bURL.isValidBitcoinURL, "Must be valid bitcoin url")
         XCTAssertEqual(bURL.amount, 123450009, "Must parse amount formatted as btc")
@@ -36,7 +37,7 @@ class BTCBitcoinURLTests: XCTestCase {
     }
     
     func testNakedPaymentRequest() {
-        let bURL = BTCBitcoinURL(URL: NSURL(string: "bitcoin:?r=http://example.com/order-1000123"))!
+        let bURL: BTCBitcoinURL = BTCBitcoinURL(url: URL(string: "bitcoin:?r=http://example.com/order-1000123"))!
         XCTAssertTrue(bURL.isValid, "Must be valid")
         XCTAssertTrue(bURL.isValidBitcoinURL, "Must be valid bitcoin url")
         XCTAssertEqual(bURL.amount, 0, "Default amount is zero")
@@ -45,36 +46,37 @@ class BTCBitcoinURLTests: XCTestCase {
     }
     
     func testInvalidURL1() {
-        let bURL = BTCBitcoinURL(URL: NSURL(string: "bitcoin:?x=something"))!
+        let bURL: BTCBitcoinURL = BTCBitcoinURL(url: URL(string: "bitcoin:?x=something"))!
         XCTAssertFalse(bURL.isValid, "Must not be valid")
         XCTAssertEqual(bURL.amount, 0, "Default amount is zero")
         XCTAssertNil(bURL.address, "Default address is nil")
         XCTAssertNil(bURL.paymentRequestURL, "Must have nil payment request")
-        XCTAssertEqual(bURL["x"] as? String, "something", "Must have query item")
+        XCTAssertEqual(bURL["x" as NSCopying] as? String, "something", "Must have query item")
     }
     
     func testInvalidURL2() {
-        let bURL = BTCBitcoinURL(URL: NSURL(string: "bitcoin:?amount=1.2"))!
+        let bURL: BTCBitcoinURL = BTCBitcoinURL(url: URL(string: "bitcoin:?amount=1.2"))!
         XCTAssertFalse(bURL.isValid, "Must not be valid")
         XCTAssertEqual(bURL.amount, 120000000, "Must parse amount")
         XCTAssertNil(bURL.address, "Default address is nil")
         XCTAssertNil(bURL.paymentRequestURL, "Must have nil payment request")
-        XCTAssertEqual(bURL["amount"] as? String, "1.2", "Must have query item")
+        XCTAssertEqual(bURL["amount" as NSCopying] as? String, "1.2", "Must have query item")
     }
 
     func testMalformedURL1() {
-        let bURL = BTCBitcoinURL(URL: NSURL(string: "bitcoin:xxxx"))
+        let bURL: BTCBitcoinURL? = BTCBitcoinURL(url: URL(string: "bitcoin:xxxx"))
         XCTAssertNil(bURL, "Must not parse broken address")
     }
     
     func testMalformedURL2() {
-        let bURL = BTCBitcoinURL(URL: NSURL(string: "http://example.com"))
+        let bURL: BTCBitcoinURL? = BTCBitcoinURL(url: URL(string: "http://example.com"))
         XCTAssertNil(bURL, "Must not parse other schemas than bitcoin:")
     }
 
     func testOpenAssetsURL() {
         // This is an example of a functional test case.
-        let bURL = BTCBitcoinURL(URL: NSURL(string: "openassets:akB4NBW9UuCmHuepksob6yfZs6naHtRCPNy?amount=123&asset=ALn3aK1fSuG27N96UGYB1kUYUpGKRhBuBC"))!
+        let bURL: BTCBitcoinURL = BTCBitcoinURL(url:
+            URL(string: "openassets:akB4NBW9UuCmHuepksob6yfZs6naHtRCPNy?amount=123&asset=ALn3aK1fSuG27N96UGYB1kUYUpGKRhBuBC"))!
         XCTAssertTrue(bURL.isValid, "Must be valid")
         XCTAssertFalse(bURL.isValidBitcoinURL, "Must not be valid bitcoin url")
         XCTAssertTrue(bURL.isValidOpenAssetsURL, "Must be valid OA url")
@@ -86,7 +88,7 @@ class BTCBitcoinURLTests: XCTestCase {
 
     func testOpenAssetsPaymentRequestURL() {
         // This is an example of a functional test case.
-        let bURL = BTCBitcoinURL(URL: NSURL(string: "openassets:?r=http://example.com"))!
+        let bURL: BTCBitcoinURL = BTCBitcoinURL(url: URL(string: "openassets:?r=http://example.com"))!
         XCTAssertTrue(bURL.isValid, "Must be valid")
         XCTAssertFalse(bURL.isValidBitcoinURL, "Must not be valid bitcoin url")
         XCTAssertTrue(bURL.isValidOpenAssetsURL, "Must be valid OA url")
@@ -95,7 +97,8 @@ class BTCBitcoinURLTests: XCTestCase {
 
     func testCompatibleOpenAssetsURL() {
         // This is an example of a functional test case.
-        let bURL = BTCBitcoinURL(URL: NSURL(string: "bitcoin:akB4NBW9UuCmHuepksob6yfZs6naHtRCPNy?amount=123&asset=ALn3aK1fSuG27N96UGYB1kUYUpGKRhBuBC"))!
+        let bURL: BTCBitcoinURL = BTCBitcoinURL(url: URL(string:
+            "bitcoin:akB4NBW9UuCmHuepksob6yfZs6naHtRCPNy?amount=123&asset=ALn3aK1fSuG27N96UGYB1kUYUpGKRhBuBC"))!
         XCTAssertTrue(bURL.isValid, "Must be valid")
         XCTAssertFalse(bURL.isValidBitcoinURL, "Must not be valid bitcoin url")
         XCTAssertTrue(bURL.isValidOpenAssetsURL, "Must be valid OA url")

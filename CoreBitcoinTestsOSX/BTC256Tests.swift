@@ -12,9 +12,9 @@ import XCTest
 class BTC256Tests: XCTestCase {
     
     func testBTC256ChunkSize() {
-        XCTAssertEqual(sizeof(BTC160), 20, "160-bit struct should by 160 bit long")
-        XCTAssertEqual(sizeof(BTC256), 32, "256-bit struct should by 256 bit long")
-        XCTAssertEqual(sizeof(BTC512), 64, "512-bit struct should by 512 bit long")
+        XCTAssertEqual(MemoryLayout<BTC160>.size, 20, "160-bit struct should by 160 bit long")
+        XCTAssertEqual(MemoryLayout<BTC256>.size, 32, "256-bit struct should by 256 bit long")
+        XCTAssertEqual(MemoryLayout<BTC512>.size, 64, "512-bit struct should by 512 bit long")
     }
     
     func testBTC256Null() {
@@ -41,19 +41,19 @@ class BTC256Tests: XCTestCase {
     
     func testBTC256Compare() {
         XCTAssert(BTC256Compare(BTC256FromNSString("62ce64dd92836e6e99d83eee3f623652f6049cf8c22272f295b262861738f036"),
-        BTC256FromNSString("62ce64dd92836e6e99d83eee3f623652f6049cf8c22272f295b262861738f036")) == NSComparisonResult.OrderedSame, "ordered same")
+                                BTC256FromNSString("62ce64dd92836e6e99d83eee3f623652f6049cf8c22272f295b262861738f036")) == ComparisonResult.orderedSame, "ordered same")
         
         XCTAssert(BTC256Compare(BTC256FromNSString("62ce64dd92836e6e99d83eee3f623652f6049cf8c22272f295b262861738f035"),
-        BTC256FromNSString("62ce64dd92836e6e99d83eee3f623652f6049cf8c22272f295b262861738f036")) == NSComparisonResult.OrderedAscending, "ordered asc")
+                                BTC256FromNSString("62ce64dd92836e6e99d83eee3f623652f6049cf8c22272f295b262861738f036")) == ComparisonResult.orderedAscending, "ordered asc")
         
         XCTAssert(BTC256Compare(BTC256FromNSString("62ce64dd92836e6e99d83eee3f623652f6049cf8c22272f295b262861738f037"),
-        BTC256FromNSString("62ce64dd92836e6e99d83eee3f623652f6049cf8c22272f295b262861738f036")) == NSComparisonResult.OrderedDescending, "ordered asc")
+                                BTC256FromNSString("62ce64dd92836e6e99d83eee3f623652f6049cf8c22272f295b262861738f036")) == ComparisonResult.orderedDescending, "ordered asc")
         
         XCTAssert(BTC256Compare(BTC256FromNSString("61ce64dd92836e6e99d83eee3f623652f6049cf8c22272f295b262861738f036"),
-        BTC256FromNSString("62ce64dd92836e6e99d83eee3f623652f6049cf8c22272f295b262861738f036")) == NSComparisonResult.OrderedAscending, "ordered same")
+                                BTC256FromNSString("62ce64dd92836e6e99d83eee3f623652f6049cf8c22272f295b262861738f036")) == ComparisonResult.orderedAscending, "ordered same")
         
         XCTAssert(BTC256Compare(BTC256FromNSString("62ce64dd92836e6e99d83eee3f623652f6049cf8c22272f295b262861738f036"),
-        BTC256FromNSString("61ce64dd92836e6e99d83eee3f623652f6049cf8c22272f295b262861738f036")) == NSComparisonResult.OrderedDescending, "ordered same")
+                                BTC256FromNSString("61ce64dd92836e6e99d83eee3f623652f6049cf8c22272f295b262861738f036")) == ComparisonResult.orderedDescending, "ordered same")
     
     }
     

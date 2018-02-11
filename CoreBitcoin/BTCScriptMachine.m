@@ -208,7 +208,7 @@
 }
 
 
-- (BOOL) runScript:(BTCScript*)script error:(NSError**)errorOut {
+- (BOOL) runScript:(BTCScript*)script error:(NSError*__autoreleasing*)errorOut {
     if (!script) {
         [NSException raise:@"BTCScriptMachineException"  format:@"non-nil script is required for -runScript:error: method."];
         return NO;

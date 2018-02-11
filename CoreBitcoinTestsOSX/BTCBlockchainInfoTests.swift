@@ -24,7 +24,7 @@ class BTCBlockchainInfoTests: XCTestCase {
     func testEmptyUnspents() {
         
         do {
-            let outputs = try BTCBlockchainInfo().unspentOutputsWithAddresses([BTCAddress(string: "1LKF45kfvHAaP7C4cF91pVb3bkAsmQ8nBr")!])
+            let outputs = try BTCBlockchainInfo().unspentOutputs(withAddresses: [BTCAddress(string: "1LKF45kfvHAaP7C4cF91pVb3bkAsmQ8nBr")!])
             XCTAssert(outputs.count == 0, "should return an empty array")
         } catch {
             XCTFail("Error: \(error)")
@@ -35,7 +35,7 @@ class BTCBlockchainInfoTests: XCTestCase {
     func testNonEmptyUnspents() {
         
         do {
-            let outputs = try BTCBlockchainInfo().unspentOutputsWithAddresses([BTCAddress(string: "1CBtcGivXmHQ8ZqdPgeMfcpQNJrqTrSAcG")!])
+            let outputs = try BTCBlockchainInfo().unspentOutputs(withAddresses: [BTCAddress(string: "1CBtcGivXmHQ8ZqdPgeMfcpQNJrqTrSAcG")!])
             XCTAssert(outputs.count > 0, "should return a non-empty array")
             XCTAssert((outputs.first as! BTCTransactionOutput?) != nil, "should contain BTCTransactionOutput objects")
         } catch {

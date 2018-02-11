@@ -23,41 +23,42 @@ class BTCPriceSourceTests: XCTestCase {
     
     func testCoindesk() {
         let coindesk = BTCPriceSourceCoindesk()
-        XCTAssert(coindesk.name.lowercaseString.rangeOfString("coindesk") != nil, "should be named coindesk")
+        XCTAssert(coindesk.name.lowercased().contains("coindesk"), "should be named coindesk")
         let codes = coindesk.currencyCodes as! [String]
         XCTAssert(codes.contains("USD"), "should contain USD")
         XCTAssert(codes.contains("EUR"), "should contain EUR")
         
-        validatePrice(try? coindesk.loadPriceForCurrency("USD"), min: 100, max: 10000)
-        validatePrice(try? coindesk.loadPriceForCurrency("EUR"), min: 100, max: 10000)
+        validatePrice(result: try? coindesk.loadPrice(forCurrency: "USD"), min: 100, max: 100000)
+        validatePrice(result: try? coindesk.loadPrice(forCurrency: "EUR"), min: 100, max: 100000)
     }
     
     func testWinkdex() {
         let winkdex = BTCPriceSourceWinkdex()
-        XCTAssert(winkdex.name.lowercaseString.rangeOfString("wink") != nil, "should be named properly")
+        XCTAssert(winkdex.name.lowercased().contains("wink"), "should be named properly")
         
         let codes = winkdex.currencyCodes as! [String]
         
         XCTAssert(codes.contains("USD"), "should contain USD")
         
-        validatePrice(try? winkdex.loadPriceForCurrency("USD"), min: 100, max: 10000)
+        // Winkdex doesn't have API anymore
+        //validatePrice(result: try? winkdex.loadPrice(forCurrency: "USD"), min: 100, max: 100000)
     }
     
     func testCoinbase() {
         let coinbase = BTCPriceSourceCoinbase()
-        XCTAssert(coinbase.name.lowercaseString.rangeOfString("coinbase") != nil, "should be named properly")
+        XCTAssert(coinbase.name.lowercased().contains("coinbase"), "should be named properly")
         let codes = coinbase.currencyCodes as! [String]
         XCTAssert(codes.contains("USD"), "should contain USD")
     }
     
     func testPaymium() {
         let paymium = BTCPriceSourcePaymium()
-        XCTAssert(paymium.name.lowercaseString.rangeOfString("paymium") != nil, "should be named properly")
+        XCTAssert(paymium.name.lowercased().contains("paymium"), "should be named properly")
         
         let codes = paymium.currencyCodes as! [String]
         
         XCTAssert(codes.contains("EUR"), "should contain EUR")
-        validatePrice(try? paymium.loadPriceForCurrency("EUR"), min: 100, max: 10000)
+        validatePrice(result: try? paymium.loadPrice(forCurrency: "EUR"), min: 100, max: 100000)
         
     }
     
@@ -66,13 +67,17 @@ class BTCPriceSourceTests: XCTestCase {
         
         XCTAssert(result != nil, "result should not be nil")
         
-        let number = result!.averageRate
+        let number: NSDecimalNumber? = result?.averageRate
         //        println("price = \(number) \(result.currencyCode)")
+        
+        if result == nil || number == nil {
+            return
+        }
         
         XCTAssert(result!.date != nil , "date should not be nil")
         XCTAssert(number != nil, "averageRate should not be nil")
-        XCTAssert(number.doubleValue >= min, "Must be over minimum value")
-        XCTAssert(number.doubleValue <= max, "Must be under max value")
+        XCTAssert(number!.doubleValue >= min, "Must be over minimum value")
+        XCTAssert(number!.doubleValue <= max, "Must be under max value")
     }
     
     

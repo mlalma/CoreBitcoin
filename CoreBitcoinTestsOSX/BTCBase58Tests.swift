@@ -34,35 +34,37 @@ class BTCBase58Tests: XCTestCase {
         BTCAssertHexEncodesToBase58("00000000000000000000", base58: "1111111111")
         
         
-        if false { //in Objective-C version, is `if ((0))`
+        /*if false { //in Objective-C version, is `if ((0))`
             // Search for vanity prefix
             let prefix = "s"
             
             var payload = BTCRandomDataWithLength(32)
-            for (var i = UInt32(0x10000000); i <= UINT32_MAX; i++) {
-                var j = 10
+            for var i in UInt32(0x10000000)...UINT32_MAX {
+            //for (var i = UInt32(0x10000000); i <= UINT32_MAX; i = i + 1) {
+                var j: Int = 10
                 var serialization: String? = nil
                 repeat
                 {
-                    let data = NSMutableData()
+                    let data: NSMutableData = NSMutableData()
                     
                     var idx: UInt32 = 0
-                    data.appendBytes(&i, length: sizeof(UInt32))
-                    data.appendBytes(&idx, length: sizeof(UInt32))
-                    data.appendData(payload)
+                    data.append(&i, length: MemoryLayout<UInt32>.size)
+                    data.append(&idx, length: MemoryLayout<UInt32>.size)
+                    data.append(payload! as Data)
                     
-                    serialization = BTCBase58CheckStringWithData(data)
+                    serialization = BTCBase58CheckStringWithData(data as Data!)
                     
                     payload = BTCRandomDataWithLength(32)
                     
-                } while serialization!.hasPrefix(prefix) && j-- > 0
+                    j -= 1
+                } while serialization!.hasPrefix(prefix) && j > 0
                 
                 if serialization!.hasPrefix(prefix) {
                     print("integer for prefix %@ is %d", prefix, i)
                     break;
                 }
             }
-        }
+        }*/
         
         
     }
@@ -71,18 +73,18 @@ class BTCBase58Tests: XCTestCase {
 }
 
 
-func BTCAssertHexEncodesToBase58(hex: String, base58: String) {
-    let data = BTCDataFromHex(hex)
+func BTCAssertHexEncodesToBase58(_ hex: String, base58: String) {
+    let data: Data = BTCDataFromHex(hex)
     
     //Encode
     XCTAssertEqual(BTCBase58StringWithData(data), base58, "should encode in base58 correctly")
     
     //Decode
-    let data2 = BTCDataFromBase58(base58)
+    let data2: Data = BTCDataFromBase58(base58) as Data
     XCTAssertEqual(data2, data, "should decode base58 correctly")
 }
 
-func BTCAssertDetectsInvalidBase58(text: String?) {
+func BTCAssertDetectsInvalidBase58(_ text: String?) {
     let data = BTCDataFromBase58Check(text)
     XCTAssertNil(data, "should return nil if base58 is invalid")
 }

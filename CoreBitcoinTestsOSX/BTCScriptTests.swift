@@ -15,21 +15,21 @@ class BTCScriptTests: XCTestCase {
         
 //        let tx = BTCTransaction(data: BTCDataFromHex("0100000002e7131826715b36b47b149177b0f2f3169af74b9188d3d02433d7f3b5e6c796a701000000fc00473044022075968c0bd5dd89872cb4793f60e30bcaa44b73f2c4ff31f0ad184f216d2b081202205b6e0d4dbe07d826baeef346d8ff9d02d40c5aa9b0f74b0fafb370aee068a9ae0147304402204b287822f29e683fc0cb16935d11b9401fee5a97893a798b4ca7d43e53eaf8c602207e42f8749083d871ea7d1e0a90e02d44f25f6276787d3c04ed72da681fb3e70f014c6952210378d430274f8c5ec1321338151e9f27f4c676a008bdf8638d07c0b6be9ab35c7121026a361b855808aeba02d3143b3ec884f709b24d5391c515bd4eafd69d1afae337210355e9d91d63acb15a75c1a9205fc4c0a0878778e08e0a9ca22adb0c2c33fa880153aeffffffff12780cf6595ce7d34ca2e2c104dad5a2ea8709348a280cefc2246bdbd0bf142a01000000fb00473044022056c9d4177774917f9a91be9b5f7c458d9d142bd5ac22d219942dd6eec7b98c140220732715ed6ffee27d446792a11578b63b5db13e52898dae26e6dc965b9dc87fb20146304302206882ff20af49797da8a5758024e32517216ec66c119199a3dc9a9f89c24cc56d021f6bf1d49a83fc73f93a2139e519ed31e3ae8b04fbe7bb7245f35da9dd22c6f7014c6952210378d430274f8c5ec1321338151e9f27f4c676a008bdf8638d07c0b6be9ab35c7121026a361b855808aeba02d3143b3ec884f709b24d5391c515bd4eafd69d1afae337210355e9d91d63acb15a75c1a9205fc4c0a0878778e08e0a9ca22adb0c2c33fa880153aeffffffff03e80300000000000017a914df91b0c30b7d6ec20c50e066c07add242dcfcc1d87e80300000000000017a914df91b0c30b7d6ec20c50e066c07add242dcfcc1d87c60700000000000017a914df91b0c30b7d6ec20c50e066c07add242dcfcc1d8700000000"))
         
-        let tx = BTCTransaction(data: BTCDataFromHex("0100000002e7131826715b36b47b149177b0f2f3169af74b9188d3d02433d7f3b5e6c796a701000000fdfd0000473044022032e7b327ccf5e7f19029134c50d881daa178a1233d09ac9e6e93081e8f33efaf02202e2bf8b57d1c34554f65fac9c6df4986d31b3f6a7bee6cbab9a3ed835e3f57c301483045022100a355f5cde0b7643a1cbb813df4b29ddca13ddd7ee3685e77b1972179832bbd9a0220391bb9661fdab9f38bcce2abaebde39f3b5874b65758b61e1961c64f8b74d288014c6952210378d430274f8c5ec1321338151e9f27f4c676a008bdf8638d07c0b6be9ab35c7121026a361b855808aeba02d3143b3ec884f709b24d5391c515bd4eafd69d1afae337210355e9d91d63acb15a75c1a9205fc4c0a0878778e08e0a9ca22adb0c2c33fa880153aeffffffff12780cf6595ce7d34ca2e2c104dad5a2ea8709348a280cefc2246bdbd0bf142a01000000fdfd0000483045022100a6967dcd995712007a647d5466131ebc2f5cd3f46c7b314ccf428ea4e46684c502202716cf49125a67627dc2837b747898b38e8c4f58abb13cd3c1c362f0f4094ff301473044022056fc5265f4508e1baf4d837894d5e6e3df8925c68c1f2f8ca83476b73fabd64202200ad5c9928db2d7096a3d19ac2d6fc9eab3db69cd00b9dbcb923bb2e709c5b64f014c6952210378d430274f8c5ec1321338151e9f27f4c676a008bdf8638d07c0b6be9ab35c7121026a361b855808aeba02d3143b3ec884f709b24d5391c515bd4eafd69d1afae337210355e9d91d63acb15a75c1a9205fc4c0a0878778e08e0a9ca22adb0c2c33fa880153aeffffffff03e80300000000000017a914df91b0c30b7d6ec20c50e066c07add242dcfcc1d87e80300000000000017a914df91b0c30b7d6ec20c50e066c07add242dcfcc1d87c60700000000000017a914df91b0c30b7d6ec20c50e066c07add242dcfcc1d8700000000"))
+        let tx: BTCTransaction = BTCTransaction(data: BTCDataFromHex("0100000002e7131826715b36b47b149177b0f2f3169af74b9188d3d02433d7f3b5e6c796a701000000fdfd0000473044022032e7b327ccf5e7f19029134c50d881daa178a1233d09ac9e6e93081e8f33efaf02202e2bf8b57d1c34554f65fac9c6df4986d31b3f6a7bee6cbab9a3ed835e3f57c301483045022100a355f5cde0b7643a1cbb813df4b29ddca13ddd7ee3685e77b1972179832bbd9a0220391bb9661fdab9f38bcce2abaebde39f3b5874b65758b61e1961c64f8b74d288014c6952210378d430274f8c5ec1321338151e9f27f4c676a008bdf8638d07c0b6be9ab35c7121026a361b855808aeba02d3143b3ec884f709b24d5391c515bd4eafd69d1afae337210355e9d91d63acb15a75c1a9205fc4c0a0878778e08e0a9ca22adb0c2c33fa880153aeffffffff12780cf6595ce7d34ca2e2c104dad5a2ea8709348a280cefc2246bdbd0bf142a01000000fdfd0000483045022100a6967dcd995712007a647d5466131ebc2f5cd3f46c7b314ccf428ea4e46684c502202716cf49125a67627dc2837b747898b38e8c4f58abb13cd3c1c362f0f4094ff301473044022056fc5265f4508e1baf4d837894d5e6e3df8925c68c1f2f8ca83476b73fabd64202200ad5c9928db2d7096a3d19ac2d6fc9eab3db69cd00b9dbcb923bb2e709c5b64f014c6952210378d430274f8c5ec1321338151e9f27f4c676a008bdf8638d07c0b6be9ab35c7121026a361b855808aeba02d3143b3ec884f709b24d5391c515bd4eafd69d1afae337210355e9d91d63acb15a75c1a9205fc4c0a0878778e08e0a9ca22adb0c2c33fa880153aeffffffff03e80300000000000017a914df91b0c30b7d6ec20c50e066c07add242dcfcc1d87e80300000000000017a914df91b0c30b7d6ec20c50e066c07add242dcfcc1d87c60700000000000017a914df91b0c30b7d6ec20c50e066c07add242dcfcc1d8700000000"))
         
 //        let redeemScript = BTCScript(data: BTCDataFromHex("52210378d430274f8c5ec1321338151e9f27f4c676a008bdf8638d07c0b6be9ab35c7121026a361b855808aeba02d3143b3ec884f709b24d5391c515bd4eafd69d1afae337210355e9d91d63acb15a75c1a9205fc4c0a0878778e08e0a9ca22adb0c2c33fa880153ae"))
         
-        let outputScript = BTCScript(address: BTCAddress(string: "2NDdMCpA9to3ayTkXJQ3DvfKuSxjyRtFG5S"))
+        let outputScript: BTCScript = BTCScript(address: BTCAddress(string: "2NDdMCpA9to3ayTkXJQ3DvfKuSxjyRtFG5S"))
         
 //        println("p2sh = \(outputScript.string)")
 //        println("p2sh inner = \(redeemScript.string)")
 //        println("tx = \(tx.dictionary)")
         
         for i in 0 ..< uint32(tx.inputs.count) {
-            let sm = BTCScriptMachine(transaction: tx, inputIndex: i)
+            let sm: BTCScriptMachine = BTCScriptMachine(transaction: tx, inputIndex: i)
             
             do {
-                try sm.verifyWithOutputScript(outputScript)
+                try sm.verify(withOutputScript: outputScript)
             } catch {
                 print("BTCScriptMachine error: \(error)")
                 XCTFail("should verify first input")
@@ -42,18 +42,18 @@ class BTCScriptTests: XCTestCase {
     func testMultisignatureScripts() {
         // 1. Create some keys
         
-        let alice   = BTCKey(privateKey: BTCHash256(BTCDataWithUTF8CString("alice")))
-        let bob     = BTCKey(privateKey: BTCHash256(BTCDataWithUTF8CString("bob")))
-        let carl    = BTCKey(privateKey: BTCHash256(BTCDataWithUTF8CString("carl")))
-        let david   = BTCKey(privateKey: BTCHash256(BTCDataWithUTF8CString("david")))
+        let alice: BTCKey   = BTCKey(privateKey: BTCHash256(BTCDataWithUTF8CString("alice")) as Data!)
+        let bob: BTCKey     = BTCKey(privateKey: BTCHash256(BTCDataWithUTF8CString("bob")) as Data!)
+        let carl: BTCKey    = BTCKey(privateKey: BTCHash256(BTCDataWithUTF8CString("carl")) as Data!)
+        let david: BTCKey   = BTCKey(privateKey: BTCHash256(BTCDataWithUTF8CString("david")) as Data!)
         
         // 2. Compose a source transaction (does not need to be fully valid o have any inputs)
         
-        let pubkeys = [alice, bob, carl].map { $0.compressedPublicKey }
-        let srcTx = BTCTransaction()
+        let pubkeys: [NSMutableData] = [alice, bob, carl].map { $0.compressedPublicKey }
+        let srcTx: BTCTransaction = BTCTransaction()
         
         // Lets have a 2-of-3 multisig output.
-        let srcTxOut = BTCTransactionOutput(value: 100, script: BTCScript(publicKeys: pubkeys, signaturesRequired: 2))
+        let srcTxOut: BTCTransactionOutput = BTCTransactionOutput(value: 100, script: BTCScript(publicKeys: pubkeys, signaturesRequired: 2))
         srcTx.addOutput(srcTxOut)
         
 //        println("Script: \(srcTxOut.script.string)")
@@ -71,26 +71,26 @@ class BTCScriptTests: XCTestCase {
         // 3. Sign the redeeming transaction.
         
         let hashtype = BTCSignatureHashType.SIGHASH_ALL
-        let hash = try? dstTx.signatureHashForScript(srcTxOut.script, inputIndex: 0, hashType: hashtype)
+        let hash = try? dstTx.signatureHash(for: srcTxOut.script, inputIndex: 0, hashType: hashtype)
         
         XCTAssertNotNil(hash, "sanity check")
         
         // 4. Simple signing case useful as a sample code.
         
         do {
-            let signatureScript = BTCScript()
+            let signatureScript: BTCScript = BTCScript()
             
-            signatureScript.appendOpcode(.OP_0) // always prepend dummy OP_0 because OP_CHECKMULTISIG pops one too many items from the stack.
-            signatureScript.appendData(alice.signatureForHash(hash, hashType: hashtype))
-            signatureScript.appendData(bob.signatureForHash(hash, hashType: hashtype))
+            signatureScript.append(.OP_0) // always prepend dummy OP_0 because OP_CHECKMULTISIG pops one too many items from the stack.
+            signatureScript.appendData(alice.signature(forHash: hash, hashType: hashtype))
+            signatureScript.appendData(bob.signature(forHash: hash, hashType: hashtype))
             
             dstTxIn.signatureScript = signatureScript
             
             // Verify the transaction.
             
-            let sm = BTCScriptMachine(transaction: dstTx, inputIndex: 0)
+            let sm: BTCScriptMachine = BTCScriptMachine(transaction: dstTx, inputIndex: 0)
             do {
-                try sm.verifyWithOutputScript(srcTxOut.script.copy() as! BTCScript)
+                try sm.verify(withOutputScript: srcTxOut.script.copy() as! BTCScript)
             } catch {
                 XCTFail("should verify first input")
             }
@@ -112,21 +112,21 @@ class BTCScriptTests: XCTestCase {
         ]
         
         for keyGroup in validKeyCombinations {
-            let signatureScript = BTCScript()
+            let signatureScript: BTCScript = BTCScript()
             
-            signatureScript.appendOpcode(.OP_0)
+            signatureScript.append(.OP_0)
             for key in keyGroup {
-                signatureScript.appendData(key.signatureForHash(hash, hashType: hashtype))
+                signatureScript.appendData(key.signature(forHash: hash, hashType: hashtype))
             }
             
             dstTxIn.signatureScript = signatureScript
             
             // Verify the transaction.
             
-            let sm = BTCScriptMachine(transaction: dstTx, inputIndex: 0)
+            let sm: BTCScriptMachine = BTCScriptMachine(transaction: dstTx, inputIndex: 0)
             
             do {
-                try sm.verifyWithOutputScript(srcTxOut.script.copy() as! BTCScript)
+                try sm.verify(withOutputScript: srcTxOut.script.copy() as! BTCScript)
             } catch {
                 print("BTCScriptMachine error: \(error)")
                 XCTFail("should verify first input")
@@ -162,21 +162,21 @@ class BTCScriptTests: XCTestCase {
         ]
         
         for keyGroup in invalidKeyCombinations {
-            let signatureScript = BTCScript()
+            let signatureScript: BTCScript = BTCScript()
             
-            signatureScript.appendOpcode(.OP_0)
+            signatureScript.append(.OP_0)
             for key in keyGroup {
-                signatureScript.appendData(key.signatureForHash(hash, hashType: hashtype))
+                signatureScript.appendData(key.signature(forHash: hash, hashType: hashtype))
             }
             
             dstTxIn.signatureScript = signatureScript
             
             //Verify the transaction.
             
-            let sm = BTCScriptMachine(transaction: dstTx, inputIndex: 0)
+            let sm: BTCScriptMachine = BTCScriptMachine(transaction: dstTx, inputIndex: 0)
             
             do {
-                try sm.verifyWithOutputScript(srcTxOut.script.copy() as! BTCScript)
+                try sm.verify(withOutputScript: srcTxOut.script.copy() as! BTCScript)
                 XCTFail("should not verify first output")
             } catch {
                 print("BTCScriptMachine error: \(error)")
@@ -191,8 +191,8 @@ class BTCScriptTests: XCTestCase {
     func testBinarySerialization() {
         //Empty script
         do {
-            XCTAssertEqual(BTCScript().data, NSData(), "Default script should be empty")
-            XCTAssertEqual(BTCScript(data: NSData()).data, NSData(), "Empty script should be empty")
+            XCTAssertEqual(BTCScript().data as NSData, NSData(), "Default script should be empty")
+            XCTAssertEqual(BTCScript(data: NSData() as Data!).data as NSData, NSData(), "Empty script should be empty")
         }
     }
 
@@ -208,24 +208,26 @@ class BTCScriptTests: XCTestCase {
     }
 
     func testStandardScripts() {
-        let script = BTCScript(data: BTCDataFromHex("76a9147ab89f9fae3f8043dcee5f7b5467a0f0a6e2f7e188ac"))
+        let script: BTCScript = BTCScript(data: BTCDataFromHex("76a9147ab89f9fae3f8043dcee5f7b5467a0f0a6e2f7e188ac"))
         
 //        println("TEST: String: \(script.string)\nIs P2PKH Script: \(script.isPayToPublicKeyHashScript)")
         
         XCTAssertTrue(script.isPayToPublicKeyHashScript, "should be regular hash160 script")
 
-        let simsigData = script.simulatedSignatureScriptWithOptions(.Default).data
-        XCTAssertEqual(simsigData.length, 1 + (72 + 1) + 1 + 65, "Simulated sigscript for p2pkh should contain signature, hashtype and an uncompressed pubkey")
+        let simsigData: Data = script.simulatedSignatureScript(with: .default).data
+        XCTAssertEqual(simsigData.count, 1 + (72 + 1) + 1 + 65,
+                       "Simulated sigscript for p2pkh should contain signature, hashtype and an uncompressed pubkey")
         
-        let simsigData2 = script.simulatedSignatureScriptWithOptions(.CompressedPublicKeys).data
-        XCTAssertEqual(simsigData2.length, 1 + (72 + 1) + 1 + 33, "Simulated sigscript for p2pkh with compressed pubkey option should contain signature, hashtype and a compressed pubkey")
+        let simsigData2: Data = script.simulatedSignatureScript(with: .compressedPublicKeys).data
+        XCTAssertEqual(simsigData2.count, 1 + (72 + 1) + 1 + 33,
+                       "Simulated sigscript for p2pkh with compressed pubkey option should contain signature, hashtype and a compressed pubkey")
 
         let base58address = script.standardAddress.string
         //print("TEST: address: \(base58address)")
         
         XCTAssertEqual(base58address, "1CBtcGivXmHQ8ZqdPgeMfcpQNJrqTrSAcG", "address should be correctly decoded")
 
-        let script2 = BTCScript(address: BTCAddress(string: "1CBtcGivXmHQ8ZqdPgeMfcpQNJrqTrSAcG"))
+        let script2: BTCScript = BTCScript(address: BTCAddress(string: "1CBtcGivXmHQ8ZqdPgeMfcpQNJrqTrSAcG"))
         XCTAssertEqual(script2.data, script.data, "script created from extracted address should be the same as the original script")
         XCTAssertEqual(script2.string, script.string, "script created from extracted address should be the same as the original script")
 
